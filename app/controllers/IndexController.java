@@ -1,32 +1,39 @@
 package controllers;
 
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiParam;
-import io.swagger.annotations.Tag;
 import play.mvc.Controller;
 import play.mvc.Result;
 import play.mvc.Http;
+import play.mvc.BodyParser;
+import java.util.HashMap;
+import play.libs.Json;
 
-@Api("Index")
 public class IndexController extends Controller
 {
-	public Result get(@ApiParam(name = "input", required = true) String input)
+	public static class InputClass
 	{
-		return ok("GET REQUEST with input: " + input);
+		public String a;
+		public String b;
 	}
 
+	public Result get(String input)
+	{
+		return ok(Json.toJson(new HashMap<String, String>(){{put("input", input);}}));
+	}
+
+	@BodyParser.Of(BodyParser.Json.class)
 	public Result post(Http.Request request)
 	{
-		return ok("POST REQUEST with payload: " + request.body().asJson().toString());
+		return ok(Json.toJson(new HashMap<String, InputClass>(){{put("input", Json.fromJson(request.body().asJson(), InputClass.class));}}));
 	}
 
+	@BodyParser.Of(BodyParser.Json.class)
 	public Result put(Http.Request request)
 	{
-		return ok("PUT REQUEST with payload: " + request.body().asJson().toString());
+		return ok(Json.toJson(new HashMap<String, InputClass>(){{put("input", Json.fromJson(request.body().asJson(), InputClass.class));}}));
 	}
 
-	public Result delete()
+	public Result delete(String input)
 	{
-		return ok("DELETE REQUEST");
+		return ok(Json.toJson(new HashMap<String, String>(){{put("input", input);}}));
 	}
 }

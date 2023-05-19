@@ -1,9 +1,8 @@
 GET		/api			controllers.IndexController.get(input : String)
 POST	/api			controllers.IndexController.post(request : Request)
 PUT		/api			controllers.IndexController.put(request : Request)
-DELETE	/api			controllers.IndexController.delete()
+DELETE	/api			controllers.IndexController.delete(input : String)
 
 GET /swagger.json        controllers.Assets.at(path="/public", file="swagger.json")
 
-# static assets for swagger-ui
-GET /docs/*file        controllers.Assets.at(path="/swagger-ui", file)
+GET /swagger-ui/*file        controllers.Assets.at(path="/public/swagger-ui", file)
